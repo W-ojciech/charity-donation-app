@@ -193,8 +193,6 @@ document.addEventListener("DOMContentLoaded", function() {
      */
     events() {
       let div_steps_instructions = form.querySelector(".form--steps-instructions");
-      let new_div = div_steps_instructions.cloneNode();
-      let div_form_steps = form.querySelector(".form--steps");
       let div_steps_counter = form.querySelector(".form--steps-counter");
       // Next step
       this.$next.forEach(btn => {
@@ -203,8 +201,8 @@ document.addEventListener("DOMContentLoaded", function() {
           this.currentStep++;
           this.updateForm();
           if (this.currentStep === 5) {
-            div_steps_instructions.remove();
-            div_steps_counter.style.visibility = 'hidden'
+            div_steps_instructions.style.display = 'none';
+            div_steps_counter.style.display = 'none';
           }
         });
       });
@@ -216,9 +214,8 @@ document.addEventListener("DOMContentLoaded", function() {
           this.currentStep--;
           this.updateForm();
           if (this.currentStep < 5) {
-            div_steps_instructions.style.visibility = 'visible';
-            // div_form_steps.appendChild(new_div);
-            div_steps_counter.style.visibility = 'visible'
+            div_steps_instructions.style.display = 'block';
+            div_steps_counter.style.display = 'block';
           }
         });
       });

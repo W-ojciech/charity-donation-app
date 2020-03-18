@@ -1,5 +1,7 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.views import View
+
+from donation.models import Donation, Category
 
 
 class LandingPageView(View):
@@ -10,7 +12,12 @@ class LandingPageView(View):
 
 class AddDonationView(View):
     def get(self, request):
+        # donations = Donation.objects.all()
+        # donations = list(donations)
+        # number_of_donations = donations.count()
         return render(request, "form.html")
+    # def post(self, request):
+    #     return redirect(DonationConfirmedView)
 
 class DonationConfirmedView(View):
     def get(self, request):
