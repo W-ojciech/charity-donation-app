@@ -192,12 +192,20 @@ document.addEventListener("DOMContentLoaded", function() {
      * All events that are happening in form
      */
     events() {
+      let div_steps_instructions = form.querySelector(".form--steps-instructions");
+      let new_div = div_steps_instructions.cloneNode();
+      let div_form_steps = form.querySelector(".form--steps");
+      let div_steps_counter = form.querySelector(".form--steps-counter");
       // Next step
       this.$next.forEach(btn => {
         btn.addEventListener("click", e => {
           e.preventDefault();
           this.currentStep++;
           this.updateForm();
+          if (this.currentStep === 5) {
+            div_steps_instructions.remove();
+            div_steps_counter.style.visibility = 'hidden'
+          }
         });
       });
 
@@ -207,6 +215,11 @@ document.addEventListener("DOMContentLoaded", function() {
           e.preventDefault();
           this.currentStep--;
           this.updateForm();
+          if (this.currentStep < 5) {
+            div_steps_instructions.style.visibility = 'visible';
+            // div_form_steps.appendChild(new_div);
+            div_steps_counter.style.visibility = 'visible'
+          }
         });
       });
 
