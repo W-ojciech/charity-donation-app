@@ -1,0 +1,12 @@
+.vscode/
+.idea/
+
+# cały katalog env
+env/
+
+# wszystkie pliki z rozszerzeniem .sqlite3 i .db
+*.sqlite3
+*.db
+__pycache__
+*.pyc
+*.log
