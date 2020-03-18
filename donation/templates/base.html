@@ -11,21 +11,21 @@
 
 
 <body>
-<header class="header--main-page">
+<header class="{% block header-bg %} header--main-page {% endblock %}">
     <nav class="container container--70">
         {% block login-options %}
         <ul class="nav--actions">
             <li>
-                <a href="" class="btn btn--small btn--without-border">Zaloguj</a>
+                <a href="/login/" class="btn btn--small btn--without-border">Zaloguj</a>
             </li>
             <li>
-                <a href="#" class="btn btn--small btn--highlighted">Załóż konto</a>
+                <a href="/register/" class="btn btn--small btn--highlighted">Załóż konto</a>
             </li>
         </ul>
         {% endblock %}
 
         <ul>
-            <li><a href="" class="btn btn--without-border active">Start</a></li>
+            <li><a href="/" class="btn btn--without-border active">Start</a></li>
             <li>
                 <a href="#steps" class="btn btn--without-border">O co chodzi?</a>
             </li>
