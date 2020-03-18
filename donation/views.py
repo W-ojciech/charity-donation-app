@@ -12,6 +12,10 @@ class AddDonationView(View):
     def get(self, request):
         return render(request, "form.html")
 
+class DonationConfirmedView(View):
+    def get(self, request):
+        return render(request, "form-confirmation.html")
+
 
 
 class LoginView(View):
