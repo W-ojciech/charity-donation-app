@@ -10,3 +10,6 @@ env/
 __pycache__
 *.pyc
 *.log
+
+# plik który mam w projekcie z własnymi notatkami
+prywatne_notatki
