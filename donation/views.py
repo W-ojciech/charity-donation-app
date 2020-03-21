@@ -2,6 +2,10 @@ from django.core.paginator import Paginator
 from django.shortcuts import render, redirect
 from django.views import View
 from donation.models import Donation, Category, Institution
+from django.contrib.auth import authenticate, login
+from django.contrib.auth.models import User
+from django.urls import reverse_lazy
+from donation import forms
 
 
 
@@ -17,7 +21,7 @@ class LandingPageView(View):
         non_governmental_organizations = Institution.objects.filter(type=1).order_by('name')
         local_collections = Institution.objects.filter(type=2).order_by('name')
 
-        paginator = Paginator(non_governmental_organizations, 1)
+        paginator = Paginator(non_governmental_organizations, 5)
         page = request.GET.get('page')
         non_governmental_organizations = paginator.get_page(page)
         return render(request, "index.html", {"number_of_donations": number_of_donations,
@@ -50,4 +54,16 @@ class LoginView(View):
 
 class RegisterView(View):
     def get(self, request):
-        return render(request, "register.html")
+        form = forms.RegisterForm()
+        return render(request, 'register.html', {'form': form})
+
+    def post(self, request):
+        form = forms.RegisterForm(request.POST)
+        if form.is_valid():
+            form.save()
+            username = form.cleaned_data.get('username')
+            raw_password = form.cleaned_data.get('password1')
+            user = authenticate(username=username, password=raw_password)
+            login(request, user)
+            return redirect('login')
+        return render(request, 'register.html', {'form': form})

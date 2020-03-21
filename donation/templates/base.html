@@ -13,18 +13,31 @@
 <body>
 <header class="{% block header-bg %} header--main-page {% endblock %}">
     <nav class="container container--70">
-        {% block login-options %}
+
+
+            {% if user.is_authenticated %}
+          <ul class="nav--actions">
+          <li class="logged-user">
+            Witaj {{ user.username }}
+            <ul class="dropdown">
+              <li><a href="#">Profil</a></li>
+              <li><a href="#">Ustawienia</a></li>
+              <li><a href="{% url 'logout' %}">Wyloguj</a></li>
+            </ul>
+          </li>
+        </ul>
+          {% else %}
             <ul class="nav--actions">
                 <li>
-                    <a href="{% url 'logowanie' %}" class="btn btn--small
+                    <a href="{% url 'login' %}" class="btn btn--small
                     btn--without-border">Zaloguj</a>
                 </li>
                 <li>
-                    <a href="{% url 'rejestrowanie' %}" class="btn btn--small
+                    <a href="{% url 'register' %}" class="btn btn--small
                     btn--highlighted">Załóż konto</a>
                 </li>
             </ul>
-        {% endblock %}
+        {% endif %}
 
         <ul>
             <li><a href="{% url 'home' %}" class="btn btn--without-border active">Start</a></li>
