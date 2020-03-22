@@ -2,11 +2,16 @@ from django.core.paginator import Paginator
 from django.shortcuts import render, redirect
 from django.views import View
 from donation.models import Donation, Category, Institution
-from django.contrib.auth import authenticate, login
-from django.contrib.auth.models import User
+from django.contrib.auth import authenticate, login, get_user_model
+from donation_auth.models import User
 from django.urls import reverse_lazy
 from donation import forms
+from donation_auth import admin
 
+
+def user_list_view(request):
+    User = get_user_model()
+    return render(request, 'users_list.html', {'users': User.objects.all()})
 
 
 class LandingPageView(View):
@@ -33,7 +38,6 @@ class LandingPageView(View):
                                               "local_collections": local_collections})
 
 
-
 class AddDonationView(View):
     def get(self, request):
         return render(request, "form.html")
@@ -48,22 +52,39 @@ class DonationConfirmedView(View):
 
 class LoginView(View):
     def get(self, request):
-        return render(request, "login.html")
+        form = admin.UserLoginForm()
+        return render(request, 'login.html', {'form': form})
+    def post(self, request):
+        email = request.POST.get('email')
+        password = request.POST.get('password')
+        user = authenticate(request, email=email, password=password)
+        form = admin.UserLoginForm()
+        if user is None:
+            message = 'User does not exist'
+            try:
+                User.objects.get(email=email)
+            except Exception:
+                return render(request, 'login.html', {'form': form, 'message': message})
+            else:
+                message = 'Password is incorrect'
+            return render(request, 'login.html', {'form': form, 'message': message})
+        login(request, user)
+        return render(request, 'index.html')
+
 
 
 
 class RegisterView(View):
     def get(self, request):
-        form = forms.RegisterForm()
+        form = admin.AddUserForm()
         return render(request, 'register.html', {'form': form})
-
     def post(self, request):
-        form = forms.RegisterForm(request.POST)
+        form = admin.AddUserForm(request.POST)
         if form.is_valid():
             form.save()
-            username = form.cleaned_data.get('username')
+            email = form.cleaned_data.get('email')
             raw_password = form.cleaned_data.get('password1')
-            user = authenticate(username=username, password=raw_password)
+            user = authenticate(email=email, password=raw_password)
             login(request, user)
             return redirect('login')
         return render(request, 'register.html', {'form': form})
