@@ -13,20 +13,21 @@
 <body>
 <header class="{% block header-bg %} header--main-page {% endblock %}">
     <nav class="container container--70">
-
-
-            {% if user.is_authenticated %}
-          <ul class="nav--actions">
-          <li class="logged-user">
-            Witaj {{ user.email }}
-            <ul class="dropdown">
-              <li><a href="#">Profil</a></li>
-              <li><a href="#">Ustawienia</a></li>
-              <li><a href="{% url 'logout' %}">Wyloguj</a></li>
+        {% if user.is_authenticated %}
+            <ul class="nav--actions">
+                <li class="logged-user">
+                    Witaj {{ user.email }}
+                    <ul class="dropdown">
+                        <li><a href="#">Profil</a></li>
+                        <li><a href="#">Ustawienia</a></li>
+                        {% if user.is_superuser %}
+                            <li><a href="/admin/">Panel administracyjny</a></li>
+                        {% endif %}
+                        <li><a href="{% url 'logout' %}">Wyloguj</a></li>
+                    </ul>
+                </li>
             </ul>
-          </li>
-        </ul>
-          {% else %}
+        {% else %}
             <ul class="nav--actions">
                 <li>
                     <a href="{% url 'login' %}" class="btn btn--small

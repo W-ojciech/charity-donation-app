@@ -66,6 +66,7 @@ document.addEventListener("DOMContentLoaded", function() {
       console.log(page);
     }
   }
+
   const helpSection = document.querySelector(".help");
   if (helpSection !== null) {
     new Help(helpSection);
@@ -136,6 +137,7 @@ document.addEventListener("DOMContentLoaded", function() {
       });
     }
   }
+
   document.querySelectorAll(".form-group--dropdown select").forEach(el => {
     new FormSelect(el);
   });
@@ -258,8 +260,137 @@ document.addEventListener("DOMContentLoaded", function() {
       this.updateForm();
     }
   }
+
   const form = document.querySelector(".form--steps");
   if (form !== null) {
     new FormSteps(form);
   }
+
+
+
+
+  /**
+   * Wyświetlanie tylko tych instytucji, które mają zaznaczony checkbox w kroku 1
+   */
+  let institution_categories = document.querySelectorAll('.categories-hidden');
+  let checkboxes_step1 = document.querySelectorAll('[type="checkbox"]');
+  checkboxes_step1.forEach(checkbox => {
+    checkbox.addEventListener('click', el => {
+      let values_list = [];
+      checkboxes_step1.forEach(checkbox => {
+        if(checkbox.checked === true){
+          values_list.push(checkbox.value)
+        }
+      });
+      console.log('wyświetlam listę values_list:', values_list);
+
+      institution_categories.forEach(category => {
+        let allowed_categories = JSON.parse(category.getAttribute('data-allowed-categories'));
+        console.log('allowed_categories', allowed_categories);
+        category.parentElement.parentElement.style.display = 'none';
+        values_list.forEach(el => {
+          if (allowed_categories.includes(el) === true) {
+            category.parentElement.parentElement.style.display = 'block'
+          }
+          else {
+            category.parentElement.parentElement.style.display = 'none'
+          }
+        })
+      })
+    })
+  });
+
+
+
+  /**
+   * Przekazywanie do kroku 5 ilości worków oraz kategorii zaznaczonych w kroku 1
+   */
+  let btn_next_step1 = document.querySelector('#btn-next-step1');
+  let step5_bag = document.querySelector('.step5-bag');
+  checkboxes_step1.forEach(checkbox => {
+    checkbox.addEventListener('click', el => {
+      let checked_inst_list =[];
+      checkboxes_step1.forEach(checkbox => {
+        if (checkbox.checked === true) {
+          checked_inst_list.push(checkbox.nextElementSibling.nextElementSibling.innerHTML)
+        }
+      });
+
+      btn_next_step1.addEventListener('click', el => {
+        let btn_next_step2 = document.querySelector('#btn-next-step2');
+        btn_next_step2.addEventListener('click', el => {
+          let bag = document.querySelector('.bag');
+          let bag_quantity = parseInt(bag.value);
+          if (1 < bag_quantity < 5)
+            step5_bag.innerText = `Oddajesz: ${checked_inst_list} - ${bag_quantity} worki`;
+          if (bag_quantity > 4)
+            step5_bag.innerText = `Oddajesz: ${checked_inst_list} - ${bag_quantity} worków`;
+          else {
+            step5_bag.innerText = "Oddajesz: " + checked_inst_list + " - " + bag_quantity + " worek";
+          }
+        });
+      });
+      console.log('checked_inst_list', checked_inst_list);
+    })
+  });
+
+
+
+  /**
+   * Przekazywanie do kroku 5 wybranej instytucji w kroku 3
+   */
+  let radio_step3 = document.querySelectorAll('[type="radio"]');
+  let step5_inst = document.querySelector('.step5-inst');
+
+  radio_step3.forEach(el => {
+    el.addEventListener('click', el => {
+      radio_step3.forEach(el => {
+        if (el.checked === true){
+          let name_of_inst = el.nextElementSibling.nextElementSibling.firstElementChild.innerHTML
+          step5_inst.innerHTML = "Dla fundacji " + name_of_inst;
+
+          console.log("Nazwa wybranej instytucji:", name_of_inst);
+          let id_wybranej_instytucji = el.value;
+          console.log('id_wybranej_instytucji:', id_wybranej_instytucji);
+        }
+      });
+     })
+  });
+
+
+
+  /**
+   * Przekazywanie do kroku 5 danych podanych w kroku 4
+   */
+  let address_ul = document.querySelector('#address');
+  let time_ul = document.querySelector('#time');
+  let button_next_step4 = document.querySelector('#button-next-step4');
+
+  button_next_step4.addEventListener('click', el => {
+    let street = document.querySelector('[name="address"]').value;
+    let city = document.querySelector('[name="city"]').value;
+    let postcode = document.querySelector('[name="postcode"]').value;
+    let phone = document.querySelector('[name="phone"]').value;
+    let data2 = document.querySelector('[name="data"]').value;
+    let time2 = document.querySelector('[name="time"]').value;
+    let more_info = document.querySelector('[name="more_info"]').value;
+
+    address_ul.firstElementChild.innerHTML = street;
+    address_ul.firstElementChild.nextElementSibling.innerHTML = city;
+    address_ul.firstElementChild.nextElementSibling.nextElementSibling.innerHTML = postcode;
+    address_ul.lastElementChild.innerHTML = phone;
+
+    time_ul.firstElementChild.innerHTML = data2;
+    time_ul.firstElementChild.nextElementSibling.innerHTML = time2;
+    time_ul.lastElementChild.innerHTML = more_info;
+  });
+
+
+
+  let confirm_form = document.querySelector('[type="submit"]');
+  confirm_form.addEventListener('click', el => {
+    console.log('potwierdzenie:', confirm_form);
+  })
+
 });
+
