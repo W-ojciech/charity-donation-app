@@ -20,6 +20,9 @@ class Institution(models.Model):
     type = models.IntegerField(choices=INSTITUTIONS_TYPES, default=0)
     categories = models.ManyToManyField(Category)
 
+    def __str__(self):
+        return f"Organizacja: {self.name} -- typu: {self.get_type_display()}"
+
 
 
 class Donation(models.Model):
@@ -34,3 +37,11 @@ class Donation(models.Model):
     pick_up_time = models.TimeField()
     pick_up_comment = models.TextField(max_length=256)
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, null=True, default=None)
+    taken_or_not = models.BooleanField(default=False)
+
+    def __str__(self):
+        if self.taken_or_not == False:
+            x = " - czeka na obiór"
+        else:
+            x = " - odebrany"
+        return f"Ilość worków: {self.quantity}, od {self.user.email}{x}."

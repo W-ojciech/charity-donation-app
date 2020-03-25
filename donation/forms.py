@@ -1,5 +1,18 @@
 from django import forms
-from donation_auth.models import User
+from donation.models import Donation
+
+
+class AddDonationForm(forms.ModelForm):
+    class Meta:
+        model = Donation
+        fields = '__all__'
+
+
+
+
+
+
+# from donation_auth.models import User
 # from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
 #
 #
@@ -25,4 +38,5 @@ from donation_auth.models import User
 #     class Meta:
 #         model = User
 #         fields = ("email", "password1", "password2")
+
 
