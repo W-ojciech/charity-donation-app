@@ -1,0 +1,83 @@
+{% extends "base.html" %}
+
+
+{% block title %} Strona użytkownika {% endblock %}
+{% block header-bg %} {% endblock %}
+{% block extra_header %} {% endblock %}
+
+{% block content %}
+    <section id="steps" class="steps">
+        <h2>User Page</h2>
+        <div class="steps--container">
+            <div class="steps--item">
+                <h3>Email - username</h3>
+                <p>{{ user.email }}</p>
+            </div>
+
+            <div class="steps--item">
+                <h3>Account from</h3>
+                <p>{{ user.date_joined }}</p>
+            </div>
+
+            <div class="steps--item">
+                <h3>Admin permissions</h3>
+                {% if user.is_superuser %}
+                    <p>Yes</p>
+                {% else %}
+                    <p>No</p>
+                {% endif %}
+            </div>
+        </div>
+
+        <div class="steps--container" style="background-color: lightgray">
+            <p style="font-size: 2.5em;">Lista przekazanych darów</p>
+        </div>
+
+        <div class="donations-div">
+            <div class="user-donations">
+                <p><b>Ilość worków</b></p>
+            </div>
+            <div class="user-donations">
+                <p><b>Wsparta organizacja</b></p>
+            </div>
+            <div class="user-donations">
+                <p><b>Rodzaje darów</b></p>
+            </div>
+            <div class="user-donations">
+                <p><b>Data odbioru</b></p>
+            </div>
+            <div class="user-donations">
+                <p><b>Status</b></p>
+            </div>
+            <div style="clear: both;">
+        </div>
+
+        <div class="donations-div">
+            {% for donation in donations %}
+                <div class="user-donations">
+                    <p>{{ donation.quantity }}</p>
+                </div>
+                <div class="user-donations">
+                    <p>{{ donation.institution.name }}</p>
+                </div>
+                <div class="user-donations">
+                    <p>{% for category in donation.categories.all %}
+                    {{ category.name }},
+                        {% endfor %}</p>
+                </div>
+                <div class="user-donations">
+                    <p>{{ donation.pick_up_date }}</p>
+                </div>
+                <div class="user-donations">
+                    {% if donation.taken_or_not %}
+                        <p>Odebrane</p>
+                    {% else %}
+                        <p>Nie odebrane</p>
+                    {% endif %}
+                </div>
+                <div style="clear: both;">
+            {% endfor %}
+        <div style="clear: both;">
+        </div>
+    </section>
+{% endblock %}

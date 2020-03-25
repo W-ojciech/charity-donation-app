@@ -7,6 +7,9 @@ from django.conf import settings
 class Category(models.Model):
     name = models.CharField(max_length=128, unique=True, verbose_name='Category name')
 
+    def __str__(self):
+        return self.name
+
 
 
 INSTITUTIONS_TYPES = (

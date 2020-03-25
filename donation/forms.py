@@ -2,12 +2,10 @@ from django import forms
 from donation.models import Donation
 
 
-class AddDonationForm(forms.ModelForm):
-    class Meta:
-        model = Donation
-        fields = '__all__'
-
-
+# class AddDonationForm(forms.ModelForm):
+#     class Meta:
+#         model = Donation
+#         fields = '__all__'
 
 
 

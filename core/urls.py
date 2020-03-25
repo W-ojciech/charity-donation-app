@@ -16,7 +16,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from donation.views import LandingPageView, AddDonationView, LoginView, RegisterView, \
-    DonationConfirmedView, user_list_view
+    DonationConfirmedView, UserPageView
 from django.contrib.auth import views as auth_views
 from donation_auth.admin import UserLoginForm
 
@@ -30,6 +30,5 @@ urlpatterns = [
     path('add-donation/', AddDonationView.as_view(), name='donation'),
     path('donation-confirmed/', DonationConfirmedView.as_view(), name='donation-confirmed'),
 
-
-    path('users/', user_list_view, name='users'),
+    path('user-page/', UserPageView.as_view(), name='user-page'),
 ]
