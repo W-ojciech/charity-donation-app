@@ -277,7 +277,7 @@ document.addEventListener("DOMContentLoaded", function() {
    * Wyświetlanie tylko tych instytucji, które mają zaznaczony checkbox w kroku 1
    */
   let institution_categories = document.querySelectorAll('.categories-hidden');
-  let checkboxes_step1 = document.querySelectorAll('[type="checkbox"]');
+  let checkboxes_step1 = document.querySelectorAll('.input-step1');
   checkboxes_step1.forEach(checkbox => {
     checkbox.addEventListener('click', el => {
       let values_list = [];
@@ -391,10 +391,32 @@ document.addEventListener("DOMContentLoaded", function() {
 
 
 
-  let confirm_form = document.querySelector('[type="submit"]');
-  confirm_form.addEventListener('click', el => {
-    console.log('potwierdzenie:', confirm_form);
+  // let confirm_form = document.querySelector('[type="submit"]');
+  // confirm_form.addEventListener('click', el => {
+  //   console.log('potwierdzenie:', confirm_form);
+  // });
+
+
+  // let donation_id = document.querySelector('#donation-id').value;
+  // let donantion_button = document.querySelector('#donation-id');
+  // donantion_button.addEventListener('click', el => {
+  //   el.preventDefault();
+  //   console.log('numer dotacji: ', donation_id)
+  // });
+  //
+  // console.log('numer dotacji: ', donation_id)
+
+
+  let donations = document.querySelectorAll('.taken-or-not');
+  donations.addEventListener('onload', el => {
+    el.initEvent();
+    donations.forEach(el => {
+    if (el.firstElementChild.innerHTML === 'odebrane') {
+      el.parentElement.style.backgroundColor = 'red';
+    }
   })
+  });
+
 
 });
 
