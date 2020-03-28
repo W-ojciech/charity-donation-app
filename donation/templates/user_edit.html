@@ -1,0 +1,60 @@
+{% extends "user_page.html" %}
+
+{% block user_header %} User Edition {% endblock %}
+
+{% block user_donations %}
+    <form action="" method="POST" style="font-size: 2.5em; width: 1000px; margin-left: auto;
+    margin-right: auto;">
+        {% csrf_token %}
+        <div>
+            <p style="color: red" >{{ message }}</p>
+        </div>
+        <div>
+            <div class="user-edit-form">
+                Podaj nowy email:
+            </div>
+            <div class="user-edit-form">
+                <input type="email" name="new_email"/>
+            </div>
+            <div style="clear: both;"></div>
+        </div>
+
+        <div>
+            <div class="user-edit-form">
+                Podaj dotychczasowe hasło:
+            </div>
+            <div class="user-edit-form">
+                {{ form.old_password }}
+            </div>
+            <div style="clear: both;"></div>
+        </div>
+
+        <div>
+            <div class="user-edit-form">
+                Wprowadź nowe hasło:
+            </div>
+            <div class="user-edit-form">
+                {{ form.new_password1 }}
+            </div>
+            <div style="clear: both;"></div>
+        </div>
+
+        <div>
+            <div class="user-edit-form">
+                Powtórz nowe hasło:
+            </div>
+            <div class="user-edit-form">
+                {{ form.new_password2 }}
+            </div>
+            <div style="clear: both;"></div>
+        </div>
+
+        <div>
+            <button
+                    type="submit"
+                    name="edit_user"
+                    value="{{ user.id }}" >Zapisz zmiany
+            </button>
+        </div>
+    </form>
+{% endblock %}

@@ -1857,3 +1857,12 @@ footer .bottom-line--icons a img {
   width: 20%;
   height: 100%;
 }
+
+
+.user-edit-form {
+  text-align: left;
+  padding: 10px;
+  width: 50%;
+  float: left;
+  justify-content: center;
+}

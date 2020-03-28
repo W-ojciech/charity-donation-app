@@ -18,18 +18,16 @@
 
 {% block content %}
     <section id="steps" class="steps">
-        <h2>User Page</h2>
+        <h2>{% block user_header %} User Page {% endblock %}</h2>
         <div class="steps--container">
             <div class="steps--item">
                 <h3>Email - username</h3>
                 <p>{{ user.email }}</p>
             </div>
-
             <div class="steps--item">
                 <h3>Account from</h3>
                 <p>{{ user.date_joined }}</p>
             </div>
-
             <div class="steps--item">
                 <h3>Admin permissions</h3>
                 {% if user.is_superuser %}
@@ -40,6 +38,7 @@
             </div>
         </div>
 
+        {% block user_donations %}
         <div class="steps--container" style="background-color: lightgray">
             <p style="font-size: 2.5em;">Lista przekazanych darów</p>
         </div>
@@ -97,6 +96,7 @@
                                         type="submit" onclick="document.getElementById('status').submit();"
                                         value="{{ donation.id }}"
                                         style="margin-right: auto; margin-left: auto;"
+                                        data-time=""
                                         id="donation-id">Anuluj odbiór
                                 </button>
                             </form>
@@ -118,5 +118,6 @@
                 </div>
             {% endfor %}
         </div>
+        {% endblock %}
     </section>
 {% endblock %}
