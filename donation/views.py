@@ -1,12 +1,10 @@
 from django.core.paginator import Paginator
-from django.http import HttpResponse
 from django.shortcuts import render, redirect
-
 from django.views import View
+from donation.forms import UserEditForm
 from donation.models import Donation, Category, Institution
-from django.contrib.auth import authenticate, login, get_user_model
+from django.contrib.auth import authenticate, login, update_session_auth_hash
 from donation_auth.models import User
-from django.urls import reverse_lazy
 from donation_auth import admin
 
 
@@ -99,7 +97,6 @@ class LoginView(View):
 
 
 
-
 class RegisterView(View):
     def get(self, request):
         form = admin.AddUserForm()
@@ -131,5 +128,27 @@ class UserPageView(View):
         else:
             current_donation.taken_or_not = True
         current_donation.save()
-
         return redirect('/user-page/#user-donations')
+
+
+
+class UserEditView(View):
+    def get(self, request):
+        user = User.objects.get(pk=request.user.id)
+        form = UserEditForm(user)
+        return render(request, 'user_edit.html', {'user': user, 'form': form})
+    def post(self, request):
+        user = User.objects.get(pk=request.user.id)
+        password_correct = user.check_password(request.POST.get('old_password'))
+        if password_correct:
+            user.email = request.POST.get('new_email')
+            user.save()
+            message = 'udało się zmienić'
+        else:
+            message = 'złe hasło'
+        form = UserEditForm(user, request.POST)
+        if form.is_valid():
+            user = form.save()
+            update_session_auth_hash(request, user)
+            message = 'Hasło zostało zmienione'
+        return render(request, 'user_edit.html', {'user': user, 'form': form, 'message': message})

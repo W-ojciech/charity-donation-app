@@ -243,12 +243,6 @@ document.addEventListener("DOMContentLoaded", function() {
         }
       });
 
-      // this.$stepInstructions[0].parentElement.parentElement.hidden = this.currentStep >= 6;
-      // this.$step.parentElement.hidden = this.currentStep >= 6;
-
-      // if (this.currentStep >= 6) {
-      //   this.$form.submit()
-      // }
 
       // TODO: get data from inputs and show them in summary
     }
@@ -389,34 +383,4 @@ document.addEventListener("DOMContentLoaded", function() {
     time_ul.lastElementChild.innerHTML = more_info;
   });
 
-
-
-  // let confirm_form = document.querySelector('[type="submit"]');
-  // confirm_form.addEventListener('click', el => {
-  //   console.log('potwierdzenie:', confirm_form);
-  // });
-
-
-  // let donation_id = document.querySelector('#donation-id').value;
-  // let donantion_button = document.querySelector('#donation-id');
-  // donantion_button.addEventListener('click', el => {
-  //   el.preventDefault();
-  //   console.log('numer dotacji: ', donation_id)
-  // });
-  //
-  // console.log('numer dotacji: ', donation_id)
-
-
-  let donations = document.querySelectorAll('.taken-or-not');
-  donations.addEventListener('onload', el => {
-    el.initEvent();
-    donations.forEach(el => {
-    if (el.firstElementChild.innerHTML === 'odebrane') {
-      el.parentElement.style.backgroundColor = 'red';
-    }
-  })
-  });
-
-
 });
-
